@@ -1,5 +1,5 @@
 from itertools import izip, count
-from numpy import inf, zeros, array, isneginf, hstack, zeros_like
+from numpy import zeros_like
 from numpy.linalg import norm
 from numpy.core.umath import sqrt
 
@@ -65,8 +65,8 @@ def regularizedDualAveragingStream(gradf_t, prox, w0, L, gamma):
 
 
 def fastGradientProjectionStream(f, g, gradf, proxg, x0, initLip=None):
-    '''The (fast) proximal gradient method requires a gradient of f, and a prox
-    operator for g, supplied by gradf and proxg respectively.'''
+    """The (fast) proximal gradient method requires a gradient of f, and a prox
+    operator for g, supplied by gradf and proxg respectively."""
     if initLip is None:
         Lipk = 1.
     else:
@@ -90,15 +90,16 @@ def fastGradientProjectionStream(f, g, gradf, proxg, x0, initLip=None):
     def P(Lip, x):
         return proxg(Lip, x - gradf(x) / Lip)
 
-    '''Non standard extension: expanding line search to find an initial estimate of Lipschitz constant'''
+    """Non standard extension: expanding line search to find an initial estimate of Lipschitz constant"""
     for k in range(5):
         pyk = P(Lipk, yk)
         if F(pyk) > Q(Lipk, pyk, yk):
             break
         yield pyk
         Lipk = Lipk / (eta ** 4)
-    '''Start standard algorithm'''
-    while (True):
+
+    """Start standard algorithm"""
+    while True:
         yield xk
 
         while True:
